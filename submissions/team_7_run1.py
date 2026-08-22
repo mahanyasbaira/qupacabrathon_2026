@@ -226,30 +226,21 @@ def build_circuits(n: int, theta: float) -> list[Callable[[], None]]:
     and one rotation per player is enough, is in the Background Notes at
     https://qupacabrathon.dev.
     """
-    # The optimal odd-cycle strategy, written in terms of the `theta` the
-    # template hands us: theta = arccos(sqrt(omega_q(n))) = pi / (4n), so
+    # theta = pi/(4n), handed to us by the template. Our angle functions:
     #
-    #     step   = pi * (n - 1) / n = pi - 4 * theta
-    #     offset = pi / (2n)        = 2 * theta
+    #   Alice: alpha(x) = step * x
+    #   Bob:   beta(y)  = step * y + offset
     #
-    # Alice measures vertex x along `step * x`, Bob measures vertex y along
-    # `step * y + offset`. Both angles are derived from `theta` rather than
-    # from `n` directly, so this function cannot drift from `omega_q`.
+    # with step = pi - 4*theta = pi(n-1)/n and offset = 2*theta = pi/(2n).
+    # Deriving both from theta rather than from n keeps them tied to omega_q.
     #
-    # Why it wins: on the Bell pair, RY(a) on wire 0 and RY(b) on wire 1 make
-    # the two answer bits agree with probability cos^2((a - b) / 2). A vertex
-    # question (x, x) needs agreement and sees a - b = -offset; an edge
-    # question (x, x+1) needs disagreement and sees a - b = -(step + offset),
-    # whose complement is again cos^2(offset / 2) once the step's pi is
-    # accounted for. Both land on cos^2(pi / (4n)) = omega_q(n), so all 2n
-    # questions win at exactly the quantum bound. That flat profile is the
-    # fingerprint of the optimum, and `analysis/` in our team repo asserts it
-    # at n = 5 and n = 13 before anything is submitted.
-    #
-    # Shape: `qml.Hadamard` and `qml.CNOT` are the shared preparation and are
-    # identical in all 2n circuits; the RY that follows touches only its own
-    # player's wire and reads only that player's question, which is what
-    # `submission_check.py` stage 2 verifies.
+    # On a Bell pair, RY(a) on wire 0 and RY(b) on wire 1 make the two answer
+    # bits agree with probability cos^2((a-b)/2). A vertex question (x,x) sees
+    # a-b = -offset. An edge question (x,x+1) sees a-b = -(step+offset), where
+    # the extra pi flips agreement into disagreement, which is what an edge
+    # needs to win. Both land on cos^2(pi/(4n)) = omega_q(n), so all 2n
+    # questions win at the same rate. We check that flat profile on the
+    # simulator before submitting.
     step = math.pi - 4.0 * theta
     offset = 2.0 * theta
 
