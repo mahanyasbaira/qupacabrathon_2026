@@ -99,7 +99,7 @@ N = 5
 # count that certifies with 90% probability at the deficit you declared below.
 # Buying the bare minimum instead puts the expected outcome exactly at the gate
 # and fails about half the time.
-SHOTS = 100
+SHOTS = 229
 
 # Pauli-twirled circuit variants per question. 1 submits your circuit exactly
 # as you wrote it. At k > 1, each question is submitted as k variants, each
