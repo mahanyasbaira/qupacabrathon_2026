@@ -90,7 +90,7 @@ RUN = 2
 
 # Cycle size. Odd and at least 3. This is the competition axis: a better run
 # shows up as a larger certified n, not as a third decimal place.
-N = 9
+N = 11
 
 # Shots per circuit. Every one of the 2n circuits gets exactly this many, and
 # the verifier rejects a submission where they differ. Size it with
@@ -99,7 +99,7 @@ N = 9
 # count that certifies with 90% probability at the deficit you declared below.
 # Buying the bare minimum instead puts the expected outcome exactly at the gate
 # and fails about half the time.
-SHOTS = 275
+SHOTS = 380
 
 # Pauli-twirled circuit variants per question. 1 submits your circuit exactly
 # as you wrote it. At k > 1, each question is submitted as k variants, each
@@ -153,7 +153,7 @@ QPU = "emerald"
 # passes here and the hardware certifies nothing; declaring one worse means you
 # over-buy shots and pay for it on the design award. Both are priced, and both
 # are your call.
-DELTA = 0.033
+DELTA = 0.0286
 
 # The one line that differs between a practice run and a hardware run, and it
 # is not yours to set: leave it as it ships. An organizer swaps this single
